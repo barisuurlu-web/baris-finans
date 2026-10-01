@@ -3,80 +3,89 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Barış Finans</title>
+  <title>Barış Finans V2</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main class="app">
-    <header>
-      <div>
-        <p class="eyebrow">KİŞİSEL FİNANS</p>
-        <h1>Barış Finans</h1>
-        <p class="muted">Gelirlerini ve giderlerini tek yerden takip et.</p>
-      </div>
-      <div class="month">Ekim 2026</div>
-    </header>
+<main class="app">
+  <header>
+    <div>
+      <p class="eyebrow">KİŞİSEL FİNANS PANELİ</p>
+      <h1>Barış Finans</h1>
+      <p class="muted">Gelirini, giderini, borçlarını ve hedeflerini takip et.</p>
+    </div>
+    <div class="month-box">
+      <label>Ay
+        <input id="monthPicker" type="month" value="2026-10">
+      </label>
+    </div>
+  </header>
 
-    <section class="cards">
-      <article><span>Toplam Gelir</span><strong id="income">₺0</strong></article>
-      <article><span>Toplam Gider</span><strong id="expense">₺0</strong></article>
-      <article><span>Kalan</span><strong id="balance">₺0</strong></article>
-    </section>
+  <section class="cards">
+    <article><span>Toplam Gelir</span><strong id="income">₺0</strong></article>
+    <article><span>Toplam Gider</span><strong id="expense">₺0</strong></article>
+    <article><span>Kalan</span><strong id="balance">₺0</strong></article>
+    <article><span>Tasarruf Oranı</span><strong id="savingRate">%0</strong></article>
+  </section>
 
-    <section class="panel">
+  <section class="grid">
+    <div class="panel">
       <h2>Hızlı Kayıt</h2>
       <form id="transactionForm">
         <div class="row">
-          <label>Tutar
-            <input id="amount" type="number" min="0.01" step="0.01" placeholder="850" required>
-          </label>
-          <label>Tür
-            <select id="type">
-              <option value="expense">Gider</option>
-              <option value="income">Gelir</option>
-            </select>
-          </label>
+          <label>Tutar<input id="amount" type="number" min="0.01" step="0.01" placeholder="850" required></label>
+          <label>Tür<select id="type"><option value="expense">Gider</option><option value="income">Gelir</option></select></label>
         </div>
         <div class="row">
           <label>Kategori
             <select id="category">
-              <option>Market</option>
-              <option>Yakıt</option>
-              <option>Dışarıda Yemek</option>
-              <option>Fatura</option>
-              <option>Kira</option>
-              <option>Aidat</option>
-              <option>Motor</option>
-              <option>Eğlence</option>
-              <option>Kişisel</option>
-              <option>Diğer</option>
+              <option>Market</option><option>Yakıt</option><option>Dışarıda Yemek</option>
+              <option>Fatura</option><option>Kira</option><option>Aidat</option>
+              <option>Motor</option><option>Eğlence</option><option>Kişisel</option>
+              <option>Birikim</option><option>Diğer</option>
             </select>
           </label>
-          <label>Kim?
-            <select id="person">
-              <option>Barış</option>
-              <option>Eşim</option>
-              <option>Ortak</option>
-            </select>
-          </label>
+          <label>Kim?<select id="person"><option>Barış</option><option>Eşim</option><option>Ortak</option></select></label>
         </div>
-        <label>Not
-          <input id="note" type="text" placeholder="Motorla gezi, market alışverişi...">
-        </label>
-        <button type="submit">Kaydet</button>
+        <div class="row">
+          <label>Ödeme<select id="payment"><option>Banka</option><option>Nakit</option><option>Kredi Kartı</option><option>Edenred</option></select></label>
+          <label>Tarih<input id="date" type="date" required></label>
+        </div>
+        <label>Not<input id="note" type="text" placeholder="Motorla gezi, market alışverişi..."></label>
+        <button type="submit">+ Kaydet</button>
       </form>
-    </section>
+    </div>
 
-    <section class="panel">
-      <div class="panel-title">
-        <h2>Son İşlemler</h2>
-        <button id="clear" class="danger" type="button">Tümünü Sil</button>
-      </div>
-      <div id="transactions" class="transactions">
-        <p class="muted">Henüz kayıt yok.</p>
-      </div>
-    </section>
-  </main>
-  <script src="app.js"></script>
+    <div class="panel">
+      <h2>Edenred</h2>
+      <div class="edenred"><span>Bu ay kullanılan</span><strong id="edenredUsed">₺0</strong></div>
+      <div class="edenred"><span>12.500 ₺ başlangıç</span><strong id="edenredLeft">₺12.500</strong></div>
+      <p class="muted small">Edenred ile yapılan giderler ayrıca takip edilir.</p>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-title"><h2>Harcama Dağılımı</h2></div>
+    <div id="categorySummary" class="summary"></div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-title">
+      <h2>Son İşlemler</h2>
+      <button id="clear" class="danger" type="button">Tümünü Sil</button>
+    </div>
+    <div id="transactions"><p class="muted">Henüz kayıt yok.</p></div>
+  </section>
+
+  <section class="panel">
+    <h2>Finansal Hedefler</h2>
+    <div class="goal">
+      <div><strong>Acil Durum Fonu</strong><span id="goalText">₺0 / ₺100.000</span></div>
+      <div class="bar"><i id="goalBar"></i></div>
+      <p class="muted small">Hedefi daha sonra birlikte değiştirebiliriz.</p>
+    </div>
+  </section>
+</main>
+<script src="app.js"></script>
 </body>
 </html>
